@@ -17,12 +17,15 @@ export default function WalletConnectPage() {
         if (account.status === "connected") {
             rerouteToMain();
         }
-    }, [account.status, router]);
+        /* eslint-disable-next-line */
+    }, [account.status]);
 
     return (
-        <div>
-            <WalletConnectButton />
-            <p>You need to connect a wallet to proceed</p>
+        <div className="flex justify-center items-center w-screen h-screen">
+            <div className="flex flex-col space-y-4 items-center">
+                <WalletConnectButton />
+                <h1>You need to connect a wallet to proceed</h1>
+            </div>
         </div>
     );
 }

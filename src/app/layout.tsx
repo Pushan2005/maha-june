@@ -19,7 +19,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <div className="p-4">
+                <div className="">
                     <TmaProvider>
                         <WalletProvider>{children}</WalletProvider>
                     </TmaProvider>
