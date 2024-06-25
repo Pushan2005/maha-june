@@ -19,9 +19,9 @@ const queryClient = new QueryClient();
 export function WalletProvider(props: PropsWithChildren) {
     const config = getDefaultConfig({
         appName: "Food Ordering TMA",
-        projectId: "53b8f38964959c95f742c76c7f479a79",
+        projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID!,
         chains: [mainnet, polygon, optimism, arbitrum, base, sepolia],
-        ssr: true, // If your dApp uses server side rendering (SSR)
+        ssr: true, // uses server side rendering
     });
 
     return (
