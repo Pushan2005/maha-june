@@ -3,6 +3,7 @@
 import { PropsWithChildren, useEffect, useState } from "react";
 import { TmaContex } from "./context";
 import { User, retrieveLaunchParams, SDKProvider } from "@tma.js/sdk-react";
+import LoadingDots from "../loading-dots";
 
 export function TmaProvider(props: PropsWithChildren) {
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -27,7 +28,7 @@ export function TmaProvider(props: PropsWithChildren) {
     useEffect(fetchTelegramUser, []);
 
     if (isLoading) {
-        return <TmaLoadingComponent />;
+        return <LoadingComponent />;
     }
 
     if (isError) {
@@ -43,10 +44,20 @@ export function TmaProvider(props: PropsWithChildren) {
     );
 }
 
-function TmaLoadingComponent() {
-    return <div>Loading...</div>;
+function LoadingComponent() {
+    return (
+        <div className="h-screen w-screen">
+            <LoadingDots />
+        </div>
+    );
 }
 
 function TmaErrorComponent() {
-    return <div>This app is only available on telegram</div>;
+    return (
+        <div className="h-screen w-screen flex items-center justify-center">
+            <p className="text-red-500">
+                Error occurred while fetching user data
+            </p>
+        </div>
+    );
 }

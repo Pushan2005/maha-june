@@ -3,7 +3,12 @@
 import { PropsWithChildren } from "react";
 
 import "@rainbow-me/rainbowkit/styles.css";
-import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import {
+    getDefaultConfig,
+    RainbowKitProvider,
+    lightTheme,
+    darkTheme,
+} from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
 import {
     mainnet,
@@ -27,7 +32,14 @@ export function WalletProvider(props: PropsWithChildren) {
     return (
         <WagmiProvider config={config}>
             <QueryClientProvider client={queryClient}>
-                <RainbowKitProvider>{props.children}</RainbowKitProvider>
+                <RainbowKitProvider
+                    theme={{
+                        lightMode: lightTheme(),
+                        darkMode: darkTheme(),
+                    }}
+                >
+                    {props.children}
+                </RainbowKitProvider>
             </QueryClientProvider>
         </WagmiProvider>
     );

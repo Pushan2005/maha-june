@@ -25,10 +25,16 @@ export default function FoodPage() {
     const { cartTotal } = useContext(CartContext);
     const { sendTransaction } = useSendTransaction();
 
+    // const account = useAccount();
+    // const router = useRouter();
+    // if (account.status === "disconnected") {
+    //     router.push("/connectwallet");
+    // }
+
     return (
         <div className="flex flex-col">
-            <h1 className="text-4xl px-auto py-2 text-center sticky top-0 bg-orange-500 font-bold">
-                <Link href="/">Menu</Link>
+            <h1 className="text-4xl px-auto py-2 text-center sticky top-0 bg-black text-white font-bold">
+                <Link href="/">-Menu-</Link>
             </h1>
             <div className="p-4">
                 {foodItems.length === 0 ? (
@@ -53,8 +59,8 @@ export default function FoodPage() {
                     ))
                 )}
             </div>
-            <div className="px-auto flex justify-between p-2 px-4 text-center sticky bottom-0 bg-slate-300 font-bold">
-                <div className="text-2xl flex space-x-1 text-slate-400 ">
+            <div className="px-auto flex justify-between p-2 px-4 text-center sticky bottom-0 bg-black font-bold">
+                <div className="text-2xl flex space-x-1 text-white">
                     <p>Total: &#8377;</p>
                     <p>{cartTotal}</p>
                 </div>
@@ -67,7 +73,9 @@ export default function FoodPage() {
                         </SheetTrigger>
                         <SheetContent className="h-auto" side={"bottom"}>
                             <SheetHeader>
-                                <SheetTitle>Confirm Order</SheetTitle>
+                                {cartTotal !== 0 && (
+                                    <SheetTitle>Confirm Order</SheetTitle>
+                                )}
                             </SheetHeader>
                             <SheetDescription className="text-center my-2">
                                 {cartTotal === 0
@@ -76,16 +84,18 @@ export default function FoodPage() {
                             </SheetDescription>
                             <SheetFooter>
                                 <SheetClose asChild>
-                                    <Button
-                                        onClick={() => {
-                                            sendTransaction({
-                                                to: `0x${process.env.NEXT_PUBLIC_ADDRESS}`,
-                                                value: parseEther("0.01"),
-                                            });
-                                        }}
-                                    >
-                                        Continue to payment
-                                    </Button>
+                                    {cartTotal !== 0 && (
+                                        <Button
+                                            onClick={() => {
+                                                sendTransaction({
+                                                    to: `0x${process.env.NEXT_PUBLIC_ADDRESS}`,
+                                                    value: parseEther("0.01"),
+                                                });
+                                            }}
+                                        >
+                                            Continue to payment
+                                        </Button>
+                                    )}
                                 </SheetClose>
                             </SheetFooter>
                         </SheetContent>
