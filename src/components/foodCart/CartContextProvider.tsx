@@ -17,8 +17,6 @@ export default function CartContextProvider({
             value={{
                 cartTotal: cartTotal,
                 setcartTotal: setcartTotal,
-                cartItems: cartItems,
-                setcartItems: setcartItems,
             }}
         >
             {children}

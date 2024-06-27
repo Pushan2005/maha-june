@@ -22,45 +22,10 @@ export default function FoodCard({
     rating,
     imgURL,
     className,
+    quantity,
 }: FoodCardProps) {
     const [count, setCount] = useState(0);
-    const { cartTotal, setcartTotal, cartItems, setcartItems } =
-        useContext(CartContext);
-
-    function addToCart(name: string, price: number) {
-        if (cartItems.some((cartItem) => cartItem.name === name)) {
-            const existingItem = cartItems.find((item) => item.name === name);
-            if (existingItem) {
-                const newCartItems = cartItems.map((item) =>
-                    item.name === name
-                        ? { ...item, quantity: item.quantity + 1 }
-                        : item
-                );
-                setcartItems(newCartItems);
-            }
-        } else {
-            setcartItems([...cartItems, { name, price, quantity: 1 }]);
-        }
-    }
-
-    function removeFromCart(name: string, price: number) {
-        if (cartItems.some((cartItem) => cartItem.name === name)) {
-            const existingItem = cartItems.find((item) => item.name === name);
-            if (existingItem && existingItem.quantity > 0) {
-                const newCartItems = cartItems.map((item) =>
-                    item.name === name
-                        ? { ...item, quantity: item.quantity - 1 }
-                        : item
-                );
-                setcartItems(newCartItems);
-            } else {
-                const newCartItems = cartItems.filter(
-                    (item) => item.name !== name
-                );
-                setcartItems(newCartItems);
-            }
-        }
-    }
+    const { cartTotal, setcartTotal } = useContext(CartContext);
 
     return (
         <div className={`w-auto flex min-h-[25vh]  ${className}`}>
@@ -84,42 +49,41 @@ export default function FoodCard({
                             onClick={() => {
                                 setCount(count + 1);
                                 setcartTotal(cartTotal + price);
-                                addToCart(name, price);
                             }}
-                            className="bg-white text-black border border-rounded hover:text-white"
+                            className="bg-white w-40 text-black border border-rounded hover:text-white"
                         >
                             ADD
                         </Button>
                     </div>
                 )}
                 {count !== 0 && (
-                    <div className="flex space-x-2 items-center">
-                        {/* counter button */}
-                        <div className="border flex space-x-2 items-center">
-                            <Button
-                                onClick={() => {
-                                    setCount(count - 1);
-                                    setcartTotal(cartTotal - price);
-                                    removeFromCart(name, price);
-                                }}
-                                className="text-sm bg-white hover:text-white text-black  rounded-full"
-                            >
-                                -
-                            </Button>
-                            <h1>{count}</h1>
-                            <Button
-                                onClick={() => {
-                                    setCount(count + 1);
-                                    setcartTotal(cartTotal + price);
-                                    addToCart(name, price);
-                                }}
-                                className="text-sm bg-white hover:text-white text-black border rounded-full"
-                            >
-                                +
-                            </Button>
+                    <>
+                        <div className="flex space-x-2 items-center">
+                            {/* counter button */}
+                            <div className="flex space-x-2 items-center">
+                                <Button
+                                    onClick={() => {
+                                        setCount(count - 1);
+                                        setcartTotal(cartTotal - price);
+                                    }}
+                                    className="text-sm bg-white hover:text-white text-black  rounded-full"
+                                >
+                                    -
+                                </Button>
+                                <h1>{count}</h1>
+                                <Button
+                                    onClick={() => {
+                                        setCount(count + 1);
+                                        setcartTotal(cartTotal + price);
+                                    }}
+                                    className="text-sm bg-white hover:text-white text-black border rounded-full"
+                                >
+                                    +
+                                </Button>
+                            </div>
                         </div>
-                        <h1>&#8377;{count * price}</h1>
-                    </div>
+                        {/* <h1>&#8377;{count * price}</h1> */}
+                    </>
                 )}
             </div>
             <div className="w-[40%] flex items-center">

@@ -16,17 +16,19 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { useSendTransaction } from "wagmi";
+import { parseEther } from "viem";
+import Link from "next/link";
 
 export default function FoodPage() {
     const foodItems: foodItem[] = foodMenu;
-    const { cartTotal, cartItems } = useContext(CartContext);
+    const { cartTotal } = useContext(CartContext);
+    const { sendTransaction } = useSendTransaction();
 
     return (
         <div className="flex flex-col">
             <h1 className="text-4xl px-auto py-2 text-center sticky top-0 bg-orange-500 font-bold">
-                Menu
+                <Link href="/">Menu</Link>
             </h1>
             <div className="p-4">
                 {foodItems.length === 0 ? (
@@ -36,7 +38,7 @@ export default function FoodPage() {
                         <>
                             <FoodCard
                                 className="my-2"
-                                key={String(foodItem._id)}
+                                key={foodItem._id}
                                 _id={foodItem._id}
                                 name={foodItem.name}
                                 price={foodItem.price}
@@ -44,6 +46,7 @@ export default function FoodPage() {
                                 isVeg={foodItem.isVeg}
                                 rating={foodItem.rating}
                                 imgURL={foodItem.imgURL}
+                                quantity={foodItem.quantity}
                             />
                             <Separator className="my-6" />
                         </>
@@ -65,28 +68,22 @@ export default function FoodPage() {
                         <SheetContent className="h-auto" side={"bottom"}>
                             <SheetHeader>
                                 <SheetTitle>Confirm Order</SheetTitle>
-                                <SheetDescription>
-                                    Make changes to your profile here. Click
-                                    save when
-                                </SheetDescription>
                             </SheetHeader>
-                            <div className="grid gap-4 py-4">
-                                {cartItems.length === 0 ? (
-                                    <h1 className="text-sm text-muted-foreground">
-                                        {" "}
-                                        Cart is empty
-                                    </h1>
-                                ) : (
-                                    cartItems.map((item) => (
-                                        <>
-                                            <Label>{item.name}</Label>
-                                        </>
-                                    ))
-                                )}
-                            </div>
+                            <SheetDescription className="text-center my-2">
+                                {cartTotal === 0
+                                    ? "Cart is empty"
+                                    : `Your order of ₹${cartTotal} stands at 0.01ETH`}
+                            </SheetDescription>
                             <SheetFooter>
                                 <SheetClose asChild>
-                                    <Button type="submit">
+                                    <Button
+                                        onClick={() => {
+                                            sendTransaction({
+                                                to: `0x${process.env.NEXT_PUBLIC_ADDRESS}`,
+                                                value: parseEther("0.01"),
+                                            });
+                                        }}
+                                    >
                                         Continue to payment
                                     </Button>
                                 </SheetClose>

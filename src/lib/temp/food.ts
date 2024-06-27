@@ -6,6 +6,7 @@ export type foodItem = {
     price: number;
     rating: number;
     imgURL: string;
+    quantity: number;
 };
 
 const foodMenu: foodItem[] = [
@@ -17,6 +18,7 @@ const foodMenu: foodItem[] = [
         price: 250,
         rating: 4.5,
         imgURL: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Pizza_Margherita_stu_spivack.jpg",
+        quantity: 0,
     },
     {
         _id: "2",
@@ -26,6 +28,7 @@ const foodMenu: foodItem[] = [
         price: 100,
         rating: 4.2,
         imgURL: "https://upload.wikimedia.org/wikipedia/commons/c/cd/Burger_in_black_background.png",
+        quantity: 0,
     },
     {
         _id: "3",
@@ -35,6 +38,7 @@ const foodMenu: foodItem[] = [
         price: 150,
         rating: 4.8,
         imgURL: "https://upload.wikimedia.org/wikipedia/commons/7/76/10_minute_Recipe_for_a_Healthy_Garden_Salad_-_49859039238.jpg",
+        quantity: 0,
     },
     {
         _id: "4",
@@ -44,6 +48,7 @@ const foodMenu: foodItem[] = [
         price: 200,
         rating: 4.6,
         imgURL: "https://upload.wikimedia.org/wikipedia/commons/6/6c/Cheeze_white_sauce_pasta_-_Our_home_at_Pune_-_Maharashtra_-IMG_4846.jpg",
+        quantity: 0,
     },
     {
         _id: "5",
@@ -53,6 +58,7 @@ const foodMenu: foodItem[] = [
         price: 300,
         rating: 4.9,
         imgURL: "https://upload.wikimedia.org/wikipedia/commons/6/63/Packaged_sushi_with_non-raw_fish.jpg",
+        quantity: 0,
     },
 ];
 
