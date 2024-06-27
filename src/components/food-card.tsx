@@ -7,6 +7,7 @@ import { useContext, useState } from "react";
 import { Button } from "./ui/button";
 import clsx from "clsx";
 import { CartContext } from "./foodCart/context";
+import { Label } from "./ui/label";
 
 interface FoodCardProps extends foodItem {
     className?: string;
@@ -23,29 +24,67 @@ export default function FoodCard({
     className,
 }: FoodCardProps) {
     const [count, setCount] = useState(0);
-    const { cartTotal, setcartTotal } = useContext(CartContext);
+    const { cartTotal, setcartTotal, cartItems, setcartItems } =
+        useContext(CartContext);
+
+    function addToCart(name: string, price: number) {
+        if (cartItems.some((cartItem) => cartItem.name === name)) {
+            const existingItem = cartItems.find((item) => item.name === name);
+            if (existingItem) {
+                const newCartItems = cartItems.map((item) =>
+                    item.name === name
+                        ? { ...item, quantity: item.quantity + 1 }
+                        : item
+                );
+                setcartItems(newCartItems);
+            }
+        } else {
+            setcartItems([...cartItems, { name, price, quantity: 1 }]);
+        }
+    }
+
+    function removeFromCart(name: string, price: number) {
+        if (cartItems.some((cartItem) => cartItem.name === name)) {
+            const existingItem = cartItems.find((item) => item.name === name);
+            if (existingItem && existingItem.quantity > 0) {
+                const newCartItems = cartItems.map((item) =>
+                    item.name === name
+                        ? { ...item, quantity: item.quantity - 1 }
+                        : item
+                );
+                setcartItems(newCartItems);
+            } else {
+                const newCartItems = cartItems.filter(
+                    (item) => item.name !== name
+                );
+                setcartItems(newCartItems);
+            }
+        }
+    }
 
     return (
         <div className={`w-auto flex min-h-[25vh]  ${className}`}>
             <div className="w-[60%] p-2">
-                <div className="flex space-x-2 items-center">
+                <div className="flex space-x-2 my-2 items-center">
                     <VegIcon isVeg={isVeg} />
-                    <h1 className="text-xl font-bold text-center mr-auto">
+                    <h1 className="text-lg font-semibold text-foreground">
                         {name}
                     </h1>
                 </div>
-                <p className="text-slate-500 mt-1 font-medium leading-none">
+                <p className="text-sm text-muted-foreground mt-1 font-medium leading-none">
                     {description}
                 </p>
-                <p>Price: &#8377;{price}</p>
-                <p>Rating: {rating}</p>
+                <Label>Price: &#8377;{price}</Label>
+                <br />
+                <Label>Rating: {rating}</Label>
                 {count === 0 && (
-                    <div className="">
+                    <div className="my-1">
                         {/* add button */}
                         <Button
                             onClick={() => {
                                 setCount(count + 1);
                                 setcartTotal(cartTotal + price);
+                                addToCart(name, price);
                             }}
                             className="bg-white text-black border border-rounded hover:text-white"
                         >
@@ -61,6 +100,7 @@ export default function FoodCard({
                                 onClick={() => {
                                     setCount(count - 1);
                                     setcartTotal(cartTotal - price);
+                                    removeFromCart(name, price);
                                 }}
                                 className="text-sm bg-white hover:text-white text-black  rounded-full"
                             >
@@ -71,6 +111,7 @@ export default function FoodCard({
                                 onClick={() => {
                                     setCount(count + 1);
                                     setcartTotal(cartTotal + price);
+                                    addToCart(name, price);
                                 }}
                                 className="text-sm bg-white hover:text-white text-black border rounded-full"
                             >

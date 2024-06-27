@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { CartContext } from "./context";
 
@@ -9,12 +8,8 @@ export default function CartContextProvider({
     children: React.ReactNode;
 }) {
     const [cartTotal, setcartTotal] = useState(0);
-    const [cartItems, setCartItems] = useState<
-        {
-            name: string;
-            price: number;
-            quantity: number;
-        }[]
+    const [cartItems, setcartItems] = useState<
+        { name: string; price: number; quantity: number }[]
     >([]);
 
     return (
@@ -23,7 +18,7 @@ export default function CartContextProvider({
                 cartTotal: cartTotal,
                 setcartTotal: setcartTotal,
                 cartItems: cartItems,
-                setcartItems: setCartItems,
+                setcartItems: setcartItems,
             }}
         >
             {children}

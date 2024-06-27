@@ -6,20 +6,22 @@ import { Separator } from "@/components/ui/separator";
 import foodMenu, { foodItem } from "@/lib/temp/food";
 import { useContext } from "react";
 import { CartContext } from "@/components/foodCart/context";
+import {
+    Sheet,
+    SheetClose,
+    SheetContent,
+    SheetDescription,
+    SheetFooter,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 export default function FoodPage() {
-    // const fetchFoodItems = async () => {
-    //     const res = await fetch(
-    //         "https://607b-106-51-191-243.ngrok-free.app/api/food"
-    //     );
-    //     const foodItems = await res.json();
-    //     return foodItems;
-    // };
-
-    // const foodItems = await fetchFoodItems();
-    // console.log(foodItems);
     const foodItems: foodItem[] = foodMenu;
-    const { cartTotal } = useContext(CartContext);
+    const { cartTotal, cartItems } = useContext(CartContext);
 
     return (
         <div className="flex flex-col">
@@ -54,7 +56,43 @@ export default function FoodPage() {
                     <p>{cartTotal}</p>
                 </div>
                 <div className="">
-                    <Button>Checkout</Button>
+                    <Sheet>
+                        <SheetTrigger className="" asChild>
+                            <Button className="" variant="outline">
+                                Checkout
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent className="h-auto" side={"bottom"}>
+                            <SheetHeader>
+                                <SheetTitle>Confirm Order</SheetTitle>
+                                <SheetDescription>
+                                    Make changes to your profile here. Click
+                                    save when
+                                </SheetDescription>
+                            </SheetHeader>
+                            <div className="grid gap-4 py-4">
+                                {cartItems.length === 0 ? (
+                                    <h1 className="text-sm text-muted-foreground">
+                                        {" "}
+                                        Cart is empty
+                                    </h1>
+                                ) : (
+                                    cartItems.map((item) => (
+                                        <>
+                                            <Label>{item.name}</Label>
+                                        </>
+                                    ))
+                                )}
+                            </div>
+                            <SheetFooter>
+                                <SheetClose asChild>
+                                    <Button type="submit">
+                                        Continue to payment
+                                    </Button>
+                                </SheetClose>
+                            </SheetFooter>
+                        </SheetContent>
+                    </Sheet>
                 </div>
             </div>
         </div>
