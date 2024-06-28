@@ -1,4 +1,5 @@
 import CartContextProvider from "@/components/foodCart/provider";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function FoodLayout({
     children,
@@ -7,7 +8,10 @@ export default function FoodLayout({
 }) {
     return (
         <>
-            <CartContextProvider>{children}</CartContextProvider>
+            <CartContextProvider>
+                {children}
+                <Toaster />
+            </CartContextProvider>
         </>
     );
 }

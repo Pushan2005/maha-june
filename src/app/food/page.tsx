@@ -20,17 +20,20 @@ import { useAccount, useSendTransaction } from "wagmi";
 import { parseEther } from "viem";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function FoodPage() {
+    const { toast } = useToast();
+
     const foodItems: foodItem[] = foodMenu;
     const { cartTotal } = useContext(CartContext);
-    const { sendTransaction } = useSendTransaction();
+    const { sendTransaction, isPending } = useSendTransaction();
 
-    const account = useAccount();
-    const router = useRouter();
-    if (account.status === "disconnected") {
-        router.push("/connectwallet");
-    }
+    // const account = useAccount();
+    // const router = useRouter();
+    // if (account.status === "disconnected") {
+    //     router.push("/connectwallet");
+    // }
 
     return (
         <div className="flex flex-col">
@@ -68,8 +71,12 @@ export default function FoodPage() {
                 <div className="">
                     <Sheet>
                         <SheetTrigger className="" asChild>
-                            <Button className="" variant="outline">
-                                Checkout
+                            <Button
+                                disabled={isPending}
+                                className=""
+                                variant="outline"
+                            >
+                                {isPending ? "Processing..." : "Checkout"}
                             </Button>
                         </SheetTrigger>
                         <SheetContent className="h-auto" side={"bottom"}>
@@ -91,6 +98,9 @@ export default function FoodPage() {
                                                 sendTransaction({
                                                     to: `0x${process.env.NEXT_PUBLIC_ADDRESS}`,
                                                     value: parseEther("0.01"),
+                                                });
+                                                toast({
+                                                    title: "Approve the transaction in your wallet",
                                                 });
                                             }}
                                         >
