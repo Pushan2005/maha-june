@@ -29,11 +29,11 @@ export default function FoodPage() {
     const { cartTotal } = useContext(CartContext);
     const { sendTransaction, isPending } = useSendTransaction();
 
-    // const account = useAccount();
-    // const router = useRouter();
-    // if (account.status === "disconnected") {
-    //     router.push("/connectwallet");
-    // }
+    const account = useAccount();
+    const router = useRouter();
+    if (account.status === "disconnected") {
+        router.push("/connectwallet");
+    }
 
     return (
         <div className="flex flex-col">

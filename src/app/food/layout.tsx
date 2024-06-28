@@ -1,3 +1,5 @@
+"use client";
+
 import CartContextProvider from "@/components/foodCart/provider";
 import { Toaster } from "@/components/ui/toaster";
 
