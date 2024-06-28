@@ -16,20 +16,21 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet";
-import { useSendTransaction } from "wagmi";
+import { useAccount, useSendTransaction } from "wagmi";
 import { parseEther } from "viem";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function FoodPage() {
     const foodItems: foodItem[] = foodMenu;
     const { cartTotal } = useContext(CartContext);
     const { sendTransaction } = useSendTransaction();
 
-    // const account = useAccount();
-    // const router = useRouter();
-    // if (account.status === "disconnected") {
-    //     router.push("/connectwallet");
-    // }
+    const account = useAccount();
+    const router = useRouter();
+    if (account.status === "disconnected") {
+        router.push("/connectwallet");
+    }
 
     return (
         <div className="flex flex-col">
