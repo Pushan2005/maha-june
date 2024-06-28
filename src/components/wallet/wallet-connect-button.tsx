@@ -60,7 +60,7 @@ export function WalletConnectButton() {
                             }
 
                             return (
-                                <div className="border flex space-x-2">
+                                <div className="flex space-x-2">
                                     <Button
                                         onClick={openChainModal}
                                         className="flex items-center border"

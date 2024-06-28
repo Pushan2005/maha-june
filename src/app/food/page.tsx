@@ -21,6 +21,7 @@ import { parseEther } from "viem";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import { WalletConnectButton } from "@/components/wallet/wallet-connect-button";
 
 export default function FoodPage() {
     const { toast } = useToast();
@@ -30,16 +31,19 @@ export default function FoodPage() {
     const { sendTransaction, isPending } = useSendTransaction();
 
     const account = useAccount();
-    const router = useRouter();
-    if (account.status === "disconnected") {
-        router.push("/connectwallet");
-    }
+    // const router = useRouter();
+    // if (account.status === "disconnected") {
+    //     router.push("/connectwallet");
+    // }
 
     return (
         <div className="flex flex-col">
             <h1 className="text-4xl px-auto py-2 text-center sticky top-0 bg-black text-white font-bold">
                 <Link href="/">-Menu-</Link>
             </h1>
+            <div className="text-center p-2">
+                <WalletConnectButton />
+            </div>
             <div className="p-4">
                 {foodItems.length === 0 ? (
                     <h1 className="text-2xl mx-auto mt-4">{"No food :("}</h1>
@@ -72,11 +76,23 @@ export default function FoodPage() {
                     <Sheet>
                         <SheetTrigger className="" asChild>
                             <Button
-                                disabled={isPending}
+                                onClick={() => {
+                                    if (account.status !== "connected")
+                                        toast({
+                                            title: "Please connect a wallet to place orders",
+                                        });
+                                }}
+                                disabled={
+                                    isPending || account.status !== "connected"
+                                }
                                 className=""
                                 variant="outline"
                             >
-                                {isPending ? "Processing..." : "Checkout"}
+                                {account.status !== "connected"
+                                    ? "Connect a wallet"
+                                    : isPending
+                                    ? "Processing..."
+                                    : "Checkout"}
                             </Button>
                         </SheetTrigger>
                         <SheetContent className="h-auto" side={"bottom"}>

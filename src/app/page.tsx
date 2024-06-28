@@ -4,16 +4,13 @@ import { useTma } from "@/components/tma/hook";
 import { Button } from "@/components/ui/button";
 import { WalletConnectButton } from "@/components/wallet/wallet-connect-button";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+
 import { useAccount } from "wagmi";
 
 export default function Home() {
     const { user } = useTma();
     const account = useAccount();
-    // const router = useRouter();
-    // if (account.status === "disconnected") {
-    //     router.push("/connectwallet");
-    // }
+
     const name = user.firstName.replace(/^"(.*)"$/, "$1");
 
     return (
@@ -24,17 +21,13 @@ export default function Home() {
                 </h1>
             </div>
             <div className="w-full h-[40vh] justify-between p-20 bg-[#EDEDED] items-center flex flex-col ">
-                <WalletConnectButton />
-                {account.status === "disconnected" && (
-                    <h1 className="text-muted-foreground">
-                        Please link a wallet to continue
-                    </h1>
-                )}
-                {account.status === "connected" && (
-                    <Button className="w-32">
-                        <Link href="/food">Check Menu</Link>
-                    </Button>
-                )}
+                <Button className="w-32">
+                    <Link href="/food">Check Menu</Link>
+                </Button>
+
+                <h1 className="text-muted-foreground text-center">
+                    Please link a wallet in the next page to place orders
+                </h1>
             </div>
         </main>
     );
