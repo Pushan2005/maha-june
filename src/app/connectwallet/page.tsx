@@ -11,7 +11,7 @@ export default function WalletConnectPage() {
 
     useEffect(() => {
         const rerouteToMain = () => {
-            router.push("/");
+            router.push("/food");
         };
 
         if (account.status === "connected") {
