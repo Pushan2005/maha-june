@@ -56,7 +56,8 @@ function TmaErrorComponent() {
     return (
         <div className="h-screen w-screen flex items-center justify-center">
             <p className="text-red-500">
-                Error occurred while fetching user data
+                This app is only available on Telegram. Please visit
+                @mahajune2024bot to access this app.
             </p>
         </div>
     );
